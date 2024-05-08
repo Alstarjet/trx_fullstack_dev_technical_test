@@ -1,15 +1,13 @@
 import express from 'express'
 import routes from './routes/routes'
+import database from './database/connection'
 
 const app =express()
 
 app.use(express.json())
-
+database.connect()
 const PORT=3000
-app.get('/hello',(_req, res)=>{
-    console.log("Someone is here")
-    res.send("hello 2")
-})
+
 app.use('/',routes)
 app.listen(PORT,()=>{
     console.log("Starting in port: "+PORT)
