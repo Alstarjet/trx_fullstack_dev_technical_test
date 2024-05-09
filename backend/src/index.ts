@@ -8,7 +8,7 @@ app.use(express.json())
 database.connect()
 const PORT=3000
 
-app.use('/',routes)
+app.use('/vehicle',routes)
 app.listen(PORT,()=>{
     console.log("Starting in port: "+PORT)
 })
