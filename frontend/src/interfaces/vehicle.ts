@@ -10,4 +10,28 @@ interface VehicleData {
     YEAR: string
     COLOR: string
 }
-export type{VehicleData}
+interface Geometry {
+    coordinates: [number, number]|[number, number][]
+    type: string
+}
+
+interface Properties {
+    address: string|null
+    name: string|null
+    type: string|null
+}
+
+interface Feature {
+    geometry: Geometry
+    type: string
+    properties: Properties
+}
+
+interface FeatureCollection {
+    features: Feature[]
+    type:string
+}
+
+
+
+export type{VehicleData,FeatureCollection}

@@ -46,11 +46,11 @@ export default VehicleList;
 const dataTest=[
     {
       "placa": "6157184027",
-      "numero economico": "7686239403",
+      "numero_economico": "7686239403",
       "vim": "1C3BC8EG8BN532515",
       "asientos": 40,
       "seguro": "Considine, Hirthe and Schmitt",
-      "segure numebr": "3582601633",
+      "seguro_numero": "3582601633",
       "BRAND": "Lincoln",
       "MODEL": "MKT",
       "YEAR": 2012,

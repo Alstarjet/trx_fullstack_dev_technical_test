@@ -8,6 +8,7 @@ import {
 import VehicleRegister from './pages/register/vehicleRegister'
 import Maps from './components/maps'
 import VehicleList from './pages/list&search/listVehicles';
+import type {FeatureCollection} from './interfaces/vehicle'
 function App() {
   const getLtLng = (lat: number, lng: number) => {
     console.log(lat + " & " + lng)
@@ -39,7 +40,7 @@ function App() {
 }
 
 export default App
-const geoccc =
+const geoccc:FeatureCollection =
 {
   "features": [
     {
