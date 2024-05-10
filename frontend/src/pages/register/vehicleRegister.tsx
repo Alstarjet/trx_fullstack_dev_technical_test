@@ -10,12 +10,12 @@ function VehicleRegister() {
         placa: '',
         numero_economico: '',
         vim: '',
-        asientos: '',
+        asientos: 0,
         seguro: '',
         seguro_numero: '',
         BRAND: '',
         MODEL: '',
-        YEAR: '',
+        YEAR: 0,
         COLOR: ''
     })
 

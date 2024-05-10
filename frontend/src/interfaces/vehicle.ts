@@ -2,12 +2,12 @@ interface VehicleData {
     placa: string
     numero_economico: string
     vim: string
-    asientos: string
+    asientos: number
     seguro: string
     seguro_numero: string
     BRAND: string
     MODEL: string
-    YEAR: string
+    YEAR: number
     COLOR: string
 }
 interface Geometry {

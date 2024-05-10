@@ -1,22 +1,23 @@
 import { useEffect } from 'react'
 import { Loader } from "@googlemaps/js-api-loader"
-import type {FeatureCollection} from '../interfaces/vehicle'
+import type { FeatureCollection } from '../interfaces/vehicle'
+import car from '../assets/car.png'
 
-interface Maps{
-    geoJson:FeatureCollection
-    getLtLng:(lat:number,lng:number)=>void
+interface Maps {
+    geoJson: FeatureCollection
+    getLtLng: (lat: number, lng: number) => void
 }
-interface FarthestPair{
-    Firstlat:number
-    Firstlng:number
-    Secondlat:number
-    Secondlng:number
+interface FarthestPair {
+    Firstlat: number
+    Firstlng: number
+    Secondlat: number
+    Secondlng: number
 }
 
-function Maps({geoJson,getLtLng}:Maps) {
+function Maps({ geoJson, getLtLng }: Maps) {
     let map: google.maps.Map
     useEffect(() => {
-        const Farthest=findFarthestPairs(extractCoordinates(geoJson))
+        const Farthest = findFarthestPairs(extractCoordinates(geoJson))
         const loader = new Loader({
             apiKey: import.meta.env.VITE_KEY_API_MAPS,
             version: "weekly",
@@ -24,32 +25,41 @@ function Maps({geoJson,getLtLng}:Maps) {
 
         loader.importLibrary("core").then(async () => {
             map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
-                center: { lat: ((Farthest.Firstlat+Farthest.Secondlat)/2), lng: ((Farthest.Firstlng+Farthest.Secondlng)/2) },
-                zoom: 15.5,
+                center: { lat: ((Farthest.Firstlat + Farthest.Secondlat) / 2), lng: ((Farthest.Firstlng + Farthest.Secondlng) / 2) },
+                zoom: 8,
+                styles: styleMap
             })
 
-            map.data.addGeoJson( geoJson)
+            map.data.addGeoJson(geoJson)
             map.addListener('click', (event: any) => {
-                getLtLng(event.latLng.lat(),event.latLng.lng())
+                getLtLng(event.latLng.lat(), event.latLng.lng())
             })
+            let zoomCorrect =new google.maps.LatLngBounds()
+            zoomCorrect.extend(new google.maps.LatLng(Farthest.Firstlat, Farthest.Firstlng))
+            zoomCorrect.extend(new google.maps.LatLng(Farthest.Secondlat, Farthest.Secondlng))
+            map.fitBounds(zoomCorrect)
+            new google.maps.Marker({
+                position: { lat: 19.46303, lng: -99.13049 },
+                map: map,
+                icon:car
+            });
         })
     })
-    const ChangeZoom=(more:boolean)=>{
-        const currentZoom=map.getZoom()
-        if (currentZoom){
-            if (more){
-                map.setZoom(currentZoom+1)
-            }else{
-                map.setZoom(currentZoom-1)
-
+    const ChangeZoom = (more: boolean) => {
+        const currentZoom = map.getZoom()
+        if (currentZoom) {
+            if (more) {
+                map.setZoom(currentZoom + 1)
+            } else {
+                map.setZoom(currentZoom - 1)
             }
         }
     }
     return (
         <div className='fullView'>
-            <button onClick={()=>{ChangeZoom(true)}}>Acercar</button>
-            <button onClick={()=>{ChangeZoom(false)}}>Alejar</button>
-        <div id='map'></div>
+            <button onClick={() => { ChangeZoom(true) }}>Acercar</button>
+            <button onClick={() => { ChangeZoom(false) }}>Alejar</button>
+            <div id='map'></div>
 
         </div>
     )
@@ -72,17 +82,17 @@ function extractCoordinates(featureCollection: FeatureCollection): [number, numb
         }
     })
 
-    return  coordinates
+    return coordinates
 }
 
 
 
 function findFarthestPairs(coordinates: number[][]): FarthestPair {
-    let farthestPair:FarthestPair={
-        Firstlat:0,
-        Firstlng:0,
-        Secondlat:0,
-        Secondlng:0,
+    let farthestPair: FarthestPair = {
+        Firstlat: 0,
+        Firstlng: 0,
+        Secondlat: 0,
+        Secondlng: 0,
     }
     let maxDistanceSquared = 0;
 
@@ -95,7 +105,7 @@ function findFarthestPairs(coordinates: number[][]): FarthestPair {
             // Update farthest pair if necessary
             if (distanceSquared > maxDistanceSquared) {
                 maxDistanceSquared = distanceSquared;
-                farthestPair = {Firstlng:longitude1, Firstlat:latitude1, Secondlng:longitude2, Secondlat:latitude2};
+                farthestPair = { Firstlng: longitude1, Firstlat: latitude1, Secondlng: longitude2, Secondlat: latitude2 };
             }
         }
     }
@@ -108,3 +118,67 @@ function mapDistance(c:FarthestPair): number {
 
     //return Math.sqrt(Math.pow((c.Firstlat - c.Secondlat), 2) + Math.pow((c.Firstlng - c.Secondlng), 2));
 }*/
+const styleMap = [
+    {
+        "featureType": "landscape.man_made",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#9aafd0"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.natural",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#86e4bb"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.business",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#e0feff"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    }
+]
+
