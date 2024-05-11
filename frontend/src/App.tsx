@@ -8,11 +8,17 @@ import {
 import VehicleRegister from './pages/register/vehicleRegister'
 import Maps from './components/maps'
 import VehicleList from './pages/list&search/listVehicles';
-import type {FeatureCollection} from './interfaces/vehicle'
+import type {FeatureCollection,makerVehicle} from './interfaces/vehicle'
 function App() {
   const getLtLng = (lat: number, lng: number) => {
     console.log(lat + " & " + lng)
   }
+  let marker:makerVehicle={
+    marker:null,
+    coordinates:[],
+    VehicleData:null
+  }
+
   return (
     <BrowserRouter >
       <nav className='navbar navbar-expand-lg bg-primary' data-bs-theme="dark">
@@ -32,9 +38,9 @@ function App() {
       </nav>
       <Routes>
         <Route path="/new" element={<VehicleRegister />} />
-        <Route path="/list" element={<VehicleList />} />
+        <Route path="/list" element={<VehicleList marker={marker} />} />
       </Routes>
-      <Maps geoJson={geoccc} getLtLng={getLtLng}></Maps>
+      <Maps geoJson={geoccc} getLtLng={getLtLng} marker={marker}></Maps>
     </BrowserRouter>
   )
 }

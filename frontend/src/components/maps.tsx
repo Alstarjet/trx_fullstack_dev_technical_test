@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
 import { Loader } from "@googlemaps/js-api-loader"
-import type { FeatureCollection } from '../interfaces/vehicle'
+import type {FeatureCollection,makerVehicle} from '../interfaces/vehicle'
 import car from '../assets/car.png'
 
 interface Maps {
     geoJson: FeatureCollection
     getLtLng: (lat: number, lng: number) => void
+    marker:makerVehicle
 }
 interface FarthestPair {
     Firstlat: number
@@ -14,10 +15,11 @@ interface FarthestPair {
     Secondlng: number
 }
 
-function Maps({ geoJson, getLtLng }: Maps) {
+function Maps({ geoJson, getLtLng,marker }: Maps) {
     let map: google.maps.Map
     useEffect(() => {
-        const Farthest = findFarthestPairs(extractCoordinates(geoJson))
+        const coordinate=extractCoordinates(geoJson)
+        const Farthest = findFarthestPairs(coordinate)
         const loader = new Loader({
             apiKey: import.meta.env.VITE_KEY_API_MAPS,
             version: "weekly",
@@ -38,11 +40,12 @@ function Maps({ geoJson, getLtLng }: Maps) {
             zoomCorrect.extend(new google.maps.LatLng(Farthest.Firstlat, Farthest.Firstlng))
             zoomCorrect.extend(new google.maps.LatLng(Farthest.Secondlat, Farthest.Secondlng))
             map.fitBounds(zoomCorrect)
-            new google.maps.Marker({
+            marker.marker=new google.maps.Marker({
                 position: { lat: 19.46303, lng: -99.13049 },
                 map: map,
                 icon:car
             });
+            marker.coordinates=coordinate
         })
     })
     const ChangeZoom = (more: boolean) => {

@@ -1,6 +1,6 @@
 import type { VehicleData } from "../interfaces/vehicle";
 import './vehicleIteamList.css'
-function itemVehicle(vehicles: VehicleData, id: string) {
+function itemVehicle(vehicles: VehicleData, id: string,changeIco:()=>void) {
     return (
         <div className="accordion-item">
             <h2 className="accordion-header">
@@ -11,6 +11,7 @@ function itemVehicle(vehicles: VehicleData, id: string) {
                     data-bs-target={"#" + id}
                     aria-expanded="false"
                     aria-controls={id}
+                    onClick={()=>changeIco()}
                 >
                     <div>
                         Placa: {vehicles.placa} Año: {vehicles.YEAR}
