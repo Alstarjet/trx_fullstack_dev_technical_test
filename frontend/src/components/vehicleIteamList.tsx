@@ -1,6 +1,48 @@
 import type { VehicleData } from "../interfaces/vehicle";
 import './vehicleIteamList.css'
-function itemVehicle(vehicles: VehicleData, id: string,changeIco:()=>void) {
+import type { markeVehicle } from '../interfaces/vehicle'
+import { useState } from "react";
+interface IteamV {
+    vehicle: VehicleData
+    id: string
+    marker: markeVehicle
+}
+
+function ItemVehicle({ vehicle, id, marker }: IteamV) {
+    const [coord, setCoord] = useState<{ lat: number; lng: number } | null>(null)
+    const vehicleContentString =
+    '<div id="vehicleInfo">' +
+    '<div id="vehicleNotice">' +
+    "</div>" +
+    `<h1 id="vehicleHeading" class="vehicleHeading">${vehicle.placa}</h1>` +
+    '<div id="vehicleBodyContent">' +
+    `<ul>` +
+    `<li><strong>Placa:</strong> ${vehicle.placa}</li>` +
+    `<li><strong>Número Económico:</strong> ${vehicle.numero_economico}</li>` +
+    `<li><strong>VIN:</strong> ${vehicle.vim}</li>` +
+    `<li><strong>Asientos:</strong> ${vehicle.asientos}</li>` +
+    `<li><strong>Seguro:</strong> ${vehicle.seguro}</li>` +
+    `<li><strong>Número de Seguro:</strong> ${vehicle.seguro_numero}</li>` +
+    `<li><strong>Marca:</strong> ${vehicle.BRAND}</li>` +
+    `<li><strong>Modelo:</strong> ${vehicle.MODEL}</li>` +
+    `<li><strong>Año:</strong> ${vehicle.YEAR}</li>` +
+    `<li><strong>Color:</strong> ${vehicle.COLOR}</li>` +
+    `</ul>` +
+    "</div>" +
+    "</div>";
+
+    const ChangeMarker = () => {
+        if (!coord){
+            const index = Math.floor(Math.random() * marker.coordinates.length)
+            const newCoordinates = { lat: marker.coordinates[index][1], lng: marker.coordinates[index][0] }
+            marker.marker?.setPosition(newCoordinates)
+            setCoord(newCoordinates)
+        }else{
+            marker.marker?.setPosition(coord)
+        }
+        marker.info?.close()
+        marker.info?.setContent(vehicleContentString)
+    }
     return (
         <div className="accordion-item">
             <h2 className="accordion-header">
@@ -11,10 +53,10 @@ function itemVehicle(vehicles: VehicleData, id: string,changeIco:()=>void) {
                     data-bs-target={"#" + id}
                     aria-expanded="false"
                     aria-controls={id}
-                    onClick={()=>changeIco()}
+                    onClick={() => ChangeMarker()}
                 >
                     <div>
-                        Placa: {vehicles.placa} Año: {vehicles.YEAR}
+                        Placa: {vehicle.placa} Año: {vehicle.YEAR}
                     </div>
                 </button>
             </h2>
@@ -25,16 +67,16 @@ function itemVehicle(vehicles: VehicleData, id: string,changeIco:()=>void) {
             >
                 <div className="accordion-body">
                     <ul className="GridVehicleIteam">
-                        <li><strong>Placa:</strong> {vehicles.placa}</li>
-                        <li><strong>Número Económico:</strong> {vehicles.numero_economico}</li>
-                        <li><strong>VIN:</strong> {vehicles.vim}</li>
-                        <li><strong>Asientos:</strong> {vehicles.asientos}</li>
-                        <li><strong>Seguro:</strong> {vehicles.seguro}</li>
-                        <li><strong>Número de Seguro:</strong> {vehicles.seguro_numero}</li>
-                        <li><strong>Marca:</strong> {vehicles.BRAND}</li>
-                        <li><strong>Modelo:</strong> {vehicles.MODEL}</li>
-                        <li><strong>Año:</strong> {vehicles.YEAR}</li>
-                        <li><strong>Color:</strong> {vehicles.COLOR}</li>
+                        <li><strong>Placa:</strong> {vehicle.placa}</li>
+                        <li><strong>Número Económico:</strong> {vehicle.numero_economico}</li>
+                        <li><strong>VIN:</strong> {vehicle.vim}</li>
+                        <li><strong>Asientos:</strong> {vehicle.asientos}</li>
+                        <li><strong>Seguro:</strong> {vehicle.seguro}</li>
+                        <li><strong>Número de Seguro:</strong> {vehicle.seguro_numero}</li>
+                        <li><strong>Marca:</strong> {vehicle.BRAND}</li>
+                        <li><strong>Modelo:</strong> {vehicle.MODEL}</li>
+                        <li><strong>Año:</strong> {vehicle.YEAR}</li>
+                        <li><strong>Color:</strong> {vehicle.COLOR}</li>
                     </ul>
                 </div>
             </div>
@@ -43,6 +85,6 @@ function itemVehicle(vehicles: VehicleData, id: string,changeIco:()=>void) {
 }
 
 
-export default itemVehicle
+export default ItemVehicle
 
 

@@ -8,16 +8,19 @@ import {
 import VehicleRegister from './pages/register/vehicleRegister'
 import Maps from './components/maps'
 import VehicleList from './pages/list&search/listVehicles';
-import type {FeatureCollection,makerVehicle} from './interfaces/vehicle'
+import type {FeatureCollection,markeVehicle} from './interfaces/vehicle'
 function App() {
   const getLtLng = (lat: number, lng: number) => {
     console.log(lat + " & " + lng)
   }
-  let marker:makerVehicle={
+  let marker:markeVehicle={
     marker:null,
     coordinates:[],
-    VehicleData:null
+    VehicleData:null,
+    info:null
   }
+
+
 
   return (
     <BrowserRouter >

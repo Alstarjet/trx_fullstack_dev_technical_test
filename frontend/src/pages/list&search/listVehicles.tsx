@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import itemVehicle from '../../components/vehicleIteamList';
+import ItemVehicle from '../../components/vehicleIteamList';
 import getListVehicles from '../../scripts/getVehicles';
 import type { VehicleQueryParams } from '../../interfaces/consut';
 import type { Response } from '../../interfaces/consut';
-import type {makerVehicle} from '../../interfaces/vehicle'
+import type {markeVehicle} from '../../interfaces/vehicle'
 
 interface VehicleList {
-  marker:makerVehicle
+  marker:markeVehicle
 }
 function VehicleList({marker}:VehicleList) {
   const [filterTipo, setFilterTipo] = useState<string>('')
@@ -43,12 +43,13 @@ function VehicleList({marker}:VehicleList) {
     }
 
   }
+  /*
   const ChangeMarker=()=>{
       const index=Math.floor(Math.random() * marker.coordinates.length)
       const newCoordinates ={ lat: marker.coordinates[index][1], lng: marker.coordinates[index][0] }
       marker.marker?.setPosition(newCoordinates)
       console.log({ lat: marker.coordinates[index][0], lng: marker.coordinates[index][1] })
-  }
+  }*/
 
   return (
     <div>
@@ -77,8 +78,8 @@ function VehicleList({marker}:VehicleList) {
       </div>
       <div className="accordion" id="accordionExample">
         {response?.docs.map((vehicle, index) => (
-          itemVehicle(vehicle, index.toString(),ChangeMarker)
-        ))}
+          <ItemVehicle vehicle={vehicle} id={index.toString()} marker={marker}></ItemVehicle>
+  ))}
       </div>
       <nav aria-label="Page navigation example">
         <ul className="pagination">

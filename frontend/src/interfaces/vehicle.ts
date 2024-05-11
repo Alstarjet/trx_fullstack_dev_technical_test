@@ -32,10 +32,11 @@ interface FeatureCollection {
     type:string
 }
 
-interface makerVehicle{
+interface markeVehicle{
     marker:google.maps.Marker|null
     coordinates:[number, number][]
     VehicleData:VehicleData|null
+    info:google.maps.InfoWindow|null
 }
 
-export type{VehicleData,FeatureCollection,makerVehicle}
+export type{VehicleData,FeatureCollection,markeVehicle}

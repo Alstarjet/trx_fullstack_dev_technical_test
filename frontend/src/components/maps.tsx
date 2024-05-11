@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { Loader } from "@googlemaps/js-api-loader"
-import type {FeatureCollection,makerVehicle} from '../interfaces/vehicle'
+import type { FeatureCollection, markeVehicle } from '../interfaces/vehicle'
 import car from '../assets/car.png'
 
 interface Maps {
     geoJson: FeatureCollection
     getLtLng: (lat: number, lng: number) => void
-    marker:makerVehicle
+    marker: markeVehicle
 }
 interface FarthestPair {
     Firstlat: number
@@ -15,10 +15,10 @@ interface FarthestPair {
     Secondlng: number
 }
 
-function Maps({ geoJson, getLtLng,marker }: Maps) {
+function Maps({ geoJson, getLtLng, marker }: Maps) {
     let map: google.maps.Map
     useEffect(() => {
-        const coordinate=extractCoordinates(geoJson)
+        const coordinate = extractCoordinates(geoJson)
         const Farthest = findFarthestPairs(coordinate)
         const loader = new Loader({
             apiKey: import.meta.env.VITE_KEY_API_MAPS,
@@ -36,16 +36,31 @@ function Maps({ geoJson, getLtLng,marker }: Maps) {
             map.addListener('click', (event: any) => {
                 getLtLng(event.latLng.lat(), event.latLng.lng())
             })
-            let zoomCorrect =new google.maps.LatLngBounds()
+            let zoomCorrect = new google.maps.LatLngBounds()
             zoomCorrect.extend(new google.maps.LatLng(Farthest.Firstlat, Farthest.Firstlng))
             zoomCorrect.extend(new google.maps.LatLng(Farthest.Secondlat, Farthest.Secondlng))
             map.fitBounds(zoomCorrect)
-            marker.marker=new google.maps.Marker({
+            marker.marker = new google.maps.Marker({
                 position: { lat: 19.46303, lng: -99.13049 },
                 map: map,
-                icon:car
+                icon: car
             });
-            marker.coordinates=coordinate
+            marker.coordinates = coordinate
+            marker.info = new google.maps.InfoWindow({
+                content: "contentString",
+            });
+            marker.marker.setZIndex(1000)
+
+            marker.marker.addListener("click", () => {
+                if (marker.info != null) {
+                    marker.info.open({
+                        anchor: marker.marker,
+                        map,
+                    });
+                }
+            });
+
+
         })
     })
     const ChangeZoom = (more: boolean) => {
