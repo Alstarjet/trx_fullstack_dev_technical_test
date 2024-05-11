@@ -10,4 +10,4 @@ interface Vehicle {
     YEAR: number
     COLOR: string
   }
-export   {Vehicle}
+export type {Vehicle}

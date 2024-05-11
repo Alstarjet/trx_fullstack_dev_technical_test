@@ -1,6 +1,6 @@
 import type { VehicleData } from "../interfaces/vehicle";
 import './vehicleIteamList.css'
-function itemVehicle(vehicles: VehicleData, id: number) {
+function itemVehicle(vehicles: VehicleData, id: string) {
     return (
         <div className="accordion-item">
             <h2 className="accordion-header">
@@ -8,9 +8,9 @@ function itemVehicle(vehicles: VehicleData, id: number) {
                     className="accordion-button collapsed"
                     type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target={"#" + id.toString}
+                    data-bs-target={"#" + id}
                     aria-expanded="false"
-                    aria-controls={id.toString()}
+                    aria-controls={id}
                 >
                     <div>
                         Placa: {vehicles.placa} Año: {vehicles.YEAR}
@@ -18,7 +18,7 @@ function itemVehicle(vehicles: VehicleData, id: number) {
                 </button>
             </h2>
             <div
-                id={id.toString()}
+                id={id}
                 className="accordion-collapse collapse"
                 data-bs-parent="#accordionExample"
             >

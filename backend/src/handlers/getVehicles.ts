@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import getVehiclesByQuery from '../database/getVehicles'
 import getVehiclesByQueryPage from '../database/getVehiclesPage'
-
+import { ResponseGet } from '../interfaces/consult'
 
 const handlerGetVehicles = async (req: Request, res: Response) => {
     try {
@@ -27,8 +27,12 @@ const handlerGetVehicles = async (req: Request, res: Response) => {
         }
         const allvehicles = await getVehiclesByQuery(criteria)
         const vehicles = await getVehiclesByQueryPage(criteria,parseInt(page as string))
-
-        res.json({pages:Math.ceil(allvehicles.length/5),docs:vehicles})
+        const response:ResponseGet={
+            currentPage:parseInt(page as string),
+            totalPages:Math.ceil(allvehicles.length/5),
+            docs:vehicles
+        }
+        res.json(response)
     } catch (error: any) {
         res.status(500).json({ error: error.message })
     }
