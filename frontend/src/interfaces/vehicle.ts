@@ -11,27 +11,7 @@ interface VehicleData {
     YEAR: number
     COLOR: string
 }
-interface Geometry {
-    coordinates: [number, number]|[number, number][]
-    type: string
-}
 
-interface Properties {
-    address: string|null
-    name: string|null
-    type: string|null
-}
-
-interface Feature {
-    geometry: Geometry
-    type: string
-    properties: Properties
-}
-
-interface FeatureCollection {
-    features: Feature[]
-    type:string
-}
 
 interface markeVehicle{
     marker:google.maps.Marker|null
@@ -40,4 +20,4 @@ interface markeVehicle{
     info:google.maps.InfoWindow|null
 }
 
-export type{VehicleData,FeatureCollection,markeVehicle}
+export type{VehicleData,markeVehicle}

@@ -9,16 +9,17 @@ import VehicleRegister from './pages/register/vehicleRegister'
 import Maps from './components/maps'
 import VehicleList from './pages/list&search/listVehicles';
 import VehicleEdit from './pages/register/vehicleEdit';
-import type {FeatureCollection,markeVehicle} from './interfaces/vehicle'
+import type { markeVehicle } from './interfaces/vehicle'
+import type { FeatureCollection } from './interfaces/consut'
 function App() {
   const getLtLng = (lat: number, lng: number) => {
     console.log(lat + " & " + lng)
   }
-  let marker:markeVehicle={
-    marker:null,
-    coordinates:[],
-    VehicleData:null,
-    info:null
+  let marker: markeVehicle = {
+    marker: null,
+    coordinates: [],
+    VehicleData: null,
+    info: null
   }
 
 
@@ -31,17 +32,17 @@ function App() {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
-            <li className="nav-item"><Link to="/list" className="nav-link active"><button className="btn btn-primary me-2" type="button">Lista de Vehiculos</button></Link></li>
-            <li className="nav-item"><Link to="/hol" className="nav-link"><button className="btn btn-primary me-2" type="button">Main button</button></Link></li>
-            <li className="nav-item"><Link to="/new" className="nav-link"><button className="btn btn-primary me-2" type="button">Nuevo Vehiculo</button></Link></li>
+            <ul className="navbar-nav">
+              <li className="nav-item"><Link to="/list" className="nav-link active"><button className="btn btn-primary me-2" type="button">Lista de Vehiculos</button></Link></li>
+              <li className="nav-item"><Link to="/hol" className="nav-link"><button className="btn btn-primary me-2" type="button">Main button</button></Link></li>
+              <li className="nav-item"><Link to="/new" className="nav-link"><button className="btn btn-primary me-2" type="button">Nuevo Vehiculo</button></Link></li>
 
-          </ul>
+            </ul>
           </div>
         </div>
       </nav>
       <Routes>
-      <Route path="/new" element={<VehicleRegister />} />
+        <Route path="/new" element={<VehicleRegister />} />
         <Route path="/edit/:id" element={<VehicleEdit />} />
         <Route path="/list" element={<VehicleList marker={marker} />} />
       </Routes>
@@ -51,7 +52,7 @@ function App() {
 }
 
 export default App
-const geoccc:FeatureCollection =
+const geoccc: FeatureCollection =
 {
   "features": [
     {

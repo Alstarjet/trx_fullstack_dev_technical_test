@@ -44,6 +44,7 @@ function ItemVehicle({ vehicle, id, marker, deleteIteam}: IteamV) {
         }
         marker.info?.close()
         marker.info?.setContent(vehicleContentString)
+        marker.marker?.setVisible(true)
     }
     return (
         <div className="accordion-item">

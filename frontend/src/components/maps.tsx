@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 import { Loader } from "@googlemaps/js-api-loader"
-import type { FeatureCollection, markeVehicle } from '../interfaces/vehicle'
+import type { markeVehicle } from '../interfaces/vehicle'
+import type { FeatureCollection } from '../interfaces/consut'
 import car from '../assets/car.png'
-
+import consultGeoJson from '../scripts/consultGeoJson'
 interface Maps {
     geoJson: FeatureCollection
     getLtLng: (lat: number, lng: number) => void
@@ -18,8 +19,6 @@ interface FarthestPair {
 function Maps({ geoJson, getLtLng, marker }: Maps) {
     let map: google.maps.Map
     useEffect(() => {
-        const coordinate = extractCoordinates(geoJson)
-        const Farthest = findFarthestPairs(coordinate)
         const loader = new Loader({
             apiKey: import.meta.env.VITE_KEY_API_MAPS,
             version: "weekly",
@@ -27,25 +26,20 @@ function Maps({ geoJson, getLtLng, marker }: Maps) {
 
         loader.importLibrary("core").then(async () => {
             map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
-                center: { lat: ((Farthest.Firstlat + Farthest.Secondlat) / 2), lng: ((Farthest.Firstlng + Farthest.Secondlng) / 2) },
-                zoom: 8,
+                center: { lat: 19.410831522107316, lng: -99.13676996826173 },
+                zoom: 11,
                 styles: styleMap
             })
-
-            map.data.addGeoJson(geoJson)
             map.addListener('click', (event: any) => {
                 getLtLng(event.latLng.lat(), event.latLng.lng())
             })
-            let zoomCorrect = new google.maps.LatLngBounds()
-            zoomCorrect.extend(new google.maps.LatLng(Farthest.Firstlat, Farthest.Firstlng))
-            zoomCorrect.extend(new google.maps.LatLng(Farthest.Secondlat, Farthest.Secondlng))
-            map.fitBounds(zoomCorrect)
+
             marker.marker = new google.maps.Marker({
                 position: { lat: 19.46303, lng: -99.13049 },
                 map: map,
-                icon: car
+                icon: car,
+                visible:false
             });
-            marker.coordinates = coordinate
             marker.info = new google.maps.InfoWindow({
                 content: "contentString",
             });
@@ -73,17 +67,36 @@ function Maps({ geoJson, getLtLng, marker }: Maps) {
             }
         }
     }
+    const loadGeoJson=async()=>{
+        try{
+            const route= await consultGeoJson()
+            const coordinate = extractCoordinates(route[0].geojson)
+            const Farthest = findFarthestPairs(coordinate)
+            map.data.addGeoJson(route[0].geojson)
+            map.setCenter({ lat: ((Farthest.Firstlat + Farthest.Secondlat) / 2), lng: ((Farthest.Firstlng + Farthest.Secondlng) / 2) })
+            let zoomCorrect = new google.maps.LatLngBounds()
+            zoomCorrect.extend(new google.maps.LatLng(Farthest.Firstlat, Farthest.Firstlng))
+            zoomCorrect.extend(new google.maps.LatLng(Farthest.Secondlat, Farthest.Secondlng))
+            map.fitBounds(zoomCorrect)
+            marker.coordinates = coordinate
+
+
+        }catch(error){
+            alert("Problema al cargar la ruta")
+            console.log(error)
+        }
+    }
     return (
         <div className='fullView'>
             <button onClick={() => { ChangeZoom(true) }}>Acercar</button>
             <button onClick={() => { ChangeZoom(false) }}>Alejar</button>
+            <button onClick={() => { loadGeoJson() }}>Cargar Ruta</button>
             <div id='map'></div>
 
         </div>
     )
 }
 
-export default Maps
 function extractCoordinates(featureCollection: FeatureCollection): [number, number][] {
     const coordinates: [number, number][] = []
 
@@ -129,13 +142,7 @@ function findFarthestPairs(coordinates: number[][]): FarthestPair {
     }
     return farthestPair;
 }
-/*
-function mapDistance(c:FarthestPair): number {
-    console.log(18 Math.exp(0.05435206803793873 / 0.2))
-    return Math.sqrt(Math.pow((19.487956289081332 - 19.464368260499977), 2) + Math.pow((-99.1467048704529 - (-99.12189980148317)), 2));
 
-    //return Math.sqrt(Math.pow((c.Firstlat - c.Secondlat), 2) + Math.pow((c.Firstlng - c.Secondlng), 2));
-}*/
 const styleMap = [
     {
         "featureType": "landscape.man_made",
@@ -200,3 +207,4 @@ const styleMap = [
     }
 ]
 
+export default Maps
