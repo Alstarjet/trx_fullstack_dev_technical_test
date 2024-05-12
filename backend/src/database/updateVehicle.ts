@@ -9,7 +9,7 @@ const updateDoc = async (id: string, vehicle: Vehicle): Promise<boolean> => {
             throw new Error('DB is not connected')
         }
         const collection = db.collection("vehicles")
-
+        vehicle._id=new ObjectId(id)
         const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: vehicle })
 
         if (result.modifiedCount === 1) {

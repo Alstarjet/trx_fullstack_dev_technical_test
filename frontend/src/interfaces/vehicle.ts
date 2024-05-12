@@ -1,4 +1,5 @@
 interface VehicleData {
+    _id?:string|null
     placa: string
     numero_economico: string
     vim: string

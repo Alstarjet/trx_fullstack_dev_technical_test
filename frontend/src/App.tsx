@@ -8,6 +8,7 @@ import {
 import VehicleRegister from './pages/register/vehicleRegister'
 import Maps from './components/maps'
 import VehicleList from './pages/list&search/listVehicles';
+import VehicleEdit from './pages/register/vehicleEdit';
 import type {FeatureCollection,markeVehicle} from './interfaces/vehicle'
 function App() {
   const getLtLng = (lat: number, lng: number) => {
@@ -40,7 +41,8 @@ function App() {
         </div>
       </nav>
       <Routes>
-        <Route path="/new" element={<VehicleRegister />} />
+      <Route path="/new" element={<VehicleRegister />} />
+        <Route path="/edit/:id" element={<VehicleEdit />} />
         <Route path="/list" element={<VehicleList marker={marker} />} />
       </Routes>
       <Maps geoJson={geoccc} getLtLng={getLtLng} marker={marker}></Maps>

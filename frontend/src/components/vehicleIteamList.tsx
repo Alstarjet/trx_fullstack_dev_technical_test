@@ -2,13 +2,15 @@ import type { VehicleData } from "../interfaces/vehicle";
 import './vehicleIteamList.css'
 import type { markeVehicle } from '../interfaces/vehicle'
 import { useState } from "react";
+import {Link} from "react-router-dom";
 interface IteamV {
     vehicle: VehicleData
     id: string
     marker: markeVehicle
+    deleteIteam:(id:string,plate:string)=>void
 }
 
-function ItemVehicle({ vehicle, id, marker }: IteamV) {
+function ItemVehicle({ vehicle, id, marker, deleteIteam}: IteamV) {
     const [coord, setCoord] = useState<{ lat: number; lng: number } | null>(null)
     const vehicleContentString =
     '<div id="vehicleInfo">' +
@@ -77,6 +79,8 @@ function ItemVehicle({ vehicle, id, marker }: IteamV) {
                         <li><strong>Modelo:</strong> {vehicle.MODEL}</li>
                         <li><strong>Año:</strong> {vehicle.YEAR}</li>
                         <li><strong>Color:</strong> {vehicle.COLOR}</li>
+                        <li><button onClick={()=>deleteIteam(id,vehicle.placa)}>Eliminar</button></li>
+                        <li><Link to={"/edit/"+id}><button>Editar</button></Link></li>
                     </ul>
                 </div>
             </div>

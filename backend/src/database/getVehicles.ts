@@ -9,6 +9,7 @@ const getVehiclesByQuery = async (criteria: any): Promise<Vehicle[]> => {
         const collection = db.collection("vehicles")
         const results = await collection.find(criteria).toArray()
         const vehicles: Vehicle[] = results.map(result => ({
+            _id:result._id,
             placa: result.placa,
             numero_economico: result.numero_economico,
             vim: result.vim,

@@ -12,6 +12,7 @@ const getVehiclesByQueryPage = async (criteria: any, pageN:number): Promise<Vehi
         
         const results = await collection.find(criteria).skip(skip).limit(pageSize).toArray()
         const vehicles: Vehicle[] = results.map(result => ({
+            _id:result._id,
             placa: result.placa,
             numero_economico: result.numero_economico,
             vim: result.vim,

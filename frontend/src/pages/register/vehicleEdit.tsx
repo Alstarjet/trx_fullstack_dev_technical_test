@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import type { VehicleData } from '../../interfaces/vehicle'
 import './vehicleRegister.css'
 import { IoCloseCircleSharp } from "react-icons/io5";
-import {Link} from "react-router-dom";
-import postVehicle from '../../scripts/postVehicle';
+import {Link,useParams} from "react-router-dom";
+import putVehicle from '../../scripts/putVehicle';
+import getOneVehicle from '../../scripts/getOneVehicle';
+import { redirect } from "react-router-dom";
 
-function VehicleRegister() {
+function VehicleEdit() {
+    let { id } = useParams();
     const [formData, setFormData] = useState<VehicleData>({
         placa: '',
         numero_economico: '',
@@ -18,6 +21,19 @@ function VehicleRegister() {
         YEAR: 0,
         COLOR: ''
     })
+    useEffect(()=>{
+        const getVehicle=async()=>{
+            if(id){
+                try{
+                    const vehicle =await getOneVehicle(id)
+                    setFormData(vehicle)
+                }catch(error){
+                    console.log(error)
+                }
+            }
+        }
+        getVehicle()
+    },[id])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -30,21 +46,24 @@ function VehicleRegister() {
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        try{
-            await postVehicle(formData)
-            alert("Vehiclulo Agregado")
-        }catch(error){
-            alert("ERROR:"+error)
+        if(id){
+            try{
+                await putVehicle(formData,id)
+                alert("Vehiclulo Actualizado")
+                return redirect("/list")            
+            }catch(error){
+                alert("ERROR:"+error)
+            }
         }
     }
 
     return (
         <div className='viewCenterFloat'>
             <div className='titlex'>
-                <h2>Nuevo Vehiculo</h2>
+                <h2>Edit Vehiculo</h2>
                 <Link to="/" className="nav-link"><IoCloseCircleSharp /></Link>
             </div>
-            <form onSubmit={handleSubmit} id='vehicleFormNew'>
+            <form onSubmit={(e)=>{handleSubmit(e)}} id='vehicleFormNew'>
                 <div className="form-floating mb-3">
                     <input type="text" name="placa" id="placa" className="form-control form-control-sm" value={formData.placa} onChange={handleChange} required />
                     <label htmlFor="placa" className="form-label">Placa:</label>
@@ -93,7 +112,7 @@ function VehicleRegister() {
 
                     <label htmlFor="COLOR" className="form-label">Color:</label>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type='submit' className="btn btn-primary" >Actualizar</button>
             </form>
 
         </div>
@@ -104,4 +123,4 @@ function VehicleRegister() {
 
 
 
-export default VehicleRegister
+export default VehicleEdit

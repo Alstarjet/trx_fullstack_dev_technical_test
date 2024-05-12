@@ -7,6 +7,7 @@ const createDoc = async (vehicle: Vehicle): Promise<string> => {
         if (!db) {
             throw new Error('DB is not connected')
         }
+        vehicle._id=undefined
         const collection = db.collection("vehicles")
         const test = await collection.insertOne(vehicle)
         if (!test) {

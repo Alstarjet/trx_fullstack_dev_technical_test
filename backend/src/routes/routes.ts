@@ -5,17 +5,18 @@ import handlerDeleteVehicle from '../handlers/deleteVehicle'
 import handlerUpdateVehicle from '../handlers/updateVehicle'
 import handlerFindVehicle from '../handlers/findVehicle'
 import handlerGetVehicles from '../handlers/getVehicles'
-const routes=express.Router()
+import cors from 'cors'
 
-routes.get('/find/:id',handlerFindVehicle)
+const routes = express.Router()
 
-routes.get('/search',handlerGetVehicles)
+routes.get('/find/:id', handlerFindVehicle)
 
+routes.get('/search', handlerGetVehicles)
 
-routes.post('/create',validateVehicleData,handlerCreateVehicle)
+routes.post('/create', validateVehicleData, handlerCreateVehicle)
+routes.options('/delete/:id',cors())
+routes.delete('/delete/:id', cors(), handlerDeleteVehicle)
 
-routes.delete('/delete/:id',handlerDeleteVehicle)
-
-routes.put('/update/:id',validateVehicleData,handlerUpdateVehicle)
+routes.put('/update/:id', validateVehicleData, handlerUpdateVehicle)
 
 export default routes

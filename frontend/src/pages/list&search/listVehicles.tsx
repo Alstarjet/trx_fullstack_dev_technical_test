@@ -3,14 +3,14 @@ import ItemVehicle from '../../components/vehicleIteamList';
 import getListVehicles from '../../scripts/getVehicles';
 import type { VehicleQueryParams } from '../../interfaces/consut';
 import type { Response } from '../../interfaces/consut';
-import type {markeVehicle} from '../../interfaces/vehicle'
-
+import type { markeVehicle } from '../../interfaces/vehicle'
+import VehicleQueryForm from '../../components/query';
+import deleteVehicle from '../../scripts/deleteVehicle';
 interface VehicleList {
-  marker:markeVehicle
+  marker: markeVehicle
 }
-function VehicleList({marker}:VehicleList) {
-  const [filterTipo, setFilterTipo] = useState<string>('')
-  const [filterAño, setFilterAño] = useState<number | null>(null)
+function VehicleList({ marker }: VehicleList) {
+
   const [response, setResponse] = useState<Response>({
     currentPage: 1,
     totalPages: 1,
@@ -19,17 +19,15 @@ function VehicleList({marker}:VehicleList) {
   const [queryParams, setQuery] = useState<VehicleQueryParams>({
     page: 1
   })
-
+  const fetchData = async () => {
+    try {
+      const data = await getListVehicles(queryParams);
+      setResponse(data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getListVehicles(queryParams);
-        setResponse(data)
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchData();
   }, []);
   const ChangePage = async (n: number) => {
@@ -43,43 +41,32 @@ function VehicleList({marker}:VehicleList) {
     }
 
   }
-  /*
-  const ChangeMarker=()=>{
-      const index=Math.floor(Math.random() * marker.coordinates.length)
-      const newCoordinates ={ lat: marker.coordinates[index][1], lng: marker.coordinates[index][0] }
-      marker.marker?.setPosition(newCoordinates)
-      console.log({ lat: marker.coordinates[index][0], lng: marker.coordinates[index][1] })
-  }*/
+  const deleteIteam = async (id: string, plate: string) => {
+    try {
+      const deleteConfirm = window.confirm("Confirma si quieres elimnar el vehiculo con placa " + plate)
+      if (deleteConfirm) {
+        await deleteVehicle(id)
+        let pageQuery = queryParams
+        pageQuery.page = response.docs.length == 1 ? response.currentPage - 1 : response.currentPage
+        const data = await getListVehicles(pageQuery);
+        setResponse(data)
+      }
+    } catch (erro) {
+      console.log(erro)
+    }
+  }
 
   return (
     <div>
       <h2>Lista de Vehículos</h2>
       <div>
-        <label>
-          Tipo:
-          <input
-            type="text"
-            value={filterTipo}
-            onChange={(e) => setFilterTipo(e.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Año:
-          <input
-            type="number"
-            value={filterAño || ''}
-            onChange={(e) =>
-              setFilterAño(e.target.value ? parseInt(e.target.value) : null)
-            }
-          />
-        </label>
+        <VehicleQueryForm queryParams={queryParams} setQueryParams={setQuery}></VehicleQueryForm>
+        <button type='button' onClick={fetchData}>Aplicar</button>
       </div>
       <div className="accordion" id="accordionExample">
         {response?.docs.map((vehicle, index) => (
-          <ItemVehicle vehicle={vehicle} id={index.toString()} marker={marker}></ItemVehicle>
-  ))}
+          <ItemVehicle vehicle={vehicle} id={vehicle._id ? vehicle._id : index.toString()} marker={marker} deleteIteam={deleteIteam}></ItemVehicle>
+        ))}
       </div>
       <nav aria-label="Page navigation example">
         <ul className="pagination">
