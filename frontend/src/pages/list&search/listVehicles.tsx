@@ -6,6 +6,7 @@ import type { Response } from '../../interfaces/consut';
 import type { markeVehicle } from '../../interfaces/vehicle'
 import VehicleQueryForm from '../../components/query';
 import deleteVehicle from '../../scripts/deleteVehicle';
+import './listVehicles.css'
 interface VehicleList {
   marker: markeVehicle
 }
@@ -57,24 +58,24 @@ function VehicleList({ marker }: VehicleList) {
   }
 
   return (
-    <div>
+    <div className='listOfVehicles'>
       <h2>Lista de Vehículos</h2>
       <div>
         <VehicleQueryForm queryParams={queryParams} setQueryParams={setQuery}></VehicleQueryForm>
         <button type='button' onClick={fetchData}>Aplicar</button>
       </div>
-      <div className="accordion" id="accordionExample">
+      <div className="accordion accordionMaps" id="accordionExample">
         {response?.docs.map((vehicle, index) => (
-          <ItemVehicle vehicle={vehicle} id={vehicle._id ? vehicle._id : index.toString()} marker={marker} deleteIteam={deleteIteam}></ItemVehicle>
+          <ItemVehicle vehicle={vehicle} id={vehicle._id ? vehicle._id : index.toString()} marker={marker} deleteIteam={deleteIteam} key={index}></ItemVehicle>
         ))}
       </div>
       <nav aria-label="Page navigation example">
         <ul className="pagination">
-          <li className="page-item"><a className="page-link" href="#" onClick={() => { ChangePage(response.currentPage - 1) }}>Previous</a></li>
+          <li className="page-item"><a className="page-link" href="#" onClick={() => { ChangePage(response.currentPage - 1) }} key={response.totalPages+1}>Previous</a></li>
           {Array.from({ length: response.totalPages }, (_, index) => (
-            <li className={index + 1 == response.currentPage ? "page-item active" : "page-item"}><a className="page-link" href="#" onClick={() => { ChangePage(index + 1) }}>{index + 1}</a></li>
+            <li className={index + 1 == response.currentPage ? "page-item active" : "page-item"} key={index}><a className="page-link" href="#" onClick={() => { ChangePage(index + 1) }}>{index + 1}</a></li>
           ))}
-          <li className="page-item"><a className="page-link" href="#" onClick={() => { ChangePage(response.currentPage + 1) }}>Next</a></li>
+          <li className="page-item"><a className="page-link" href="#" onClick={() => { ChangePage(response.currentPage + 1) }} key={response.totalPages+2}>Next</a></li>
         </ul>
       </nav>
     </div>

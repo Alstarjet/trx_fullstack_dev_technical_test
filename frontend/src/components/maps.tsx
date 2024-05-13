@@ -4,6 +4,7 @@ import type { markeVehicle } from '../interfaces/vehicle'
 import type { FeatureCollection } from '../interfaces/consut'
 import car from '../assets/car.png'
 import consultGeoJson from '../scripts/consultGeoJson'
+import './maps.css'
 interface Maps {
     geoJson: FeatureCollection
     getLtLng: (lat: number, lng: number) => void
@@ -38,7 +39,7 @@ function Maps({ geoJson, getLtLng, marker }: Maps) {
                 position: { lat: 19.46303, lng: -99.13049 },
                 map: map,
                 icon: car,
-                visible:false
+                visible: false
             });
             marker.info = new google.maps.InfoWindow({
                 content: "contentString",
@@ -67,9 +68,9 @@ function Maps({ geoJson, getLtLng, marker }: Maps) {
             }
         }
     }
-    const loadGeoJson=async()=>{
-        try{
-            const route= await consultGeoJson()
+    const loadGeoJson = async () => {
+        try {
+            const route = await consultGeoJson()
             const coordinate = extractCoordinates(route[0].geojson)
             const Farthest = findFarthestPairs(coordinate)
             map.data.addGeoJson(route[0].geojson)
@@ -81,16 +82,19 @@ function Maps({ geoJson, getLtLng, marker }: Maps) {
             marker.coordinates = coordinate
 
 
-        }catch(error){
+        } catch (error) {
             alert("Problema al cargar la ruta")
             console.log(error)
         }
     }
     return (
-        <div className='fullView'>
-            <button onClick={() => { ChangeZoom(true) }}>Acercar</button>
-            <button onClick={() => { ChangeZoom(false) }}>Alejar</button>
-            <button onClick={() => { loadGeoJson() }}>Cargar Ruta</button>
+        <div className='mapsView'>
+            <div className='mapsButtons'>
+                <button onClick={() => { loadGeoJson() }}>Cargar Ruta</button>
+                <button onClick={() => { ChangeZoom(true) }}>Acercar</button>
+                <button onClick={() => { ChangeZoom(false) }}>Alejar</button>
+            </div>
+
             <div id='map'></div>
 
         </div>

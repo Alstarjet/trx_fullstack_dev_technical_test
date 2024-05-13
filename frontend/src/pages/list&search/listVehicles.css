@@ -1,0 +1,20 @@
+.listOfVehicles h2{
+    font-size: 1.5rem;
+}
+.accordionMaps .accordion-body{
+    padding: 0.2rem;
+    font-size: 12px;
+    line-height: 13px;
+}
+.accordionMaps{
+    margin-bottom: 1rem;
+}
+@media screen and (max-width: 991px) {
+
+    .listOfVehicles{
+      width: 100%;
+      max-width: none;
+      order: 2;
+      padding: 10px;
+    }
+  }

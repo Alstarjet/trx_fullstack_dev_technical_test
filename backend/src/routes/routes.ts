@@ -5,7 +5,7 @@ import handlerDeleteVehicle from '../handlers/deleteVehicle'
 import handlerUpdateVehicle from '../handlers/updateVehicle'
 import handlerFindVehicle from '../handlers/findVehicle'
 import handlerGetVehicles from '../handlers/getVehicles'
-import handlerGETRoute from '../handlers/getRouthe'
+import handlerGETRoute from '../handlers/getRoute'
 import cors from 'cors'
 
 const routes = express.Router()

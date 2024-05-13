@@ -2,10 +2,13 @@ import { Request, Response } from 'express'
 
 import type { Route } from '../interfaces/consult'
 
-const URL_SERVICE_ROUTE = 'https://lxelctvrnx7xs4eoxujkgqxk6u0khkdy.lambda-url.us-east-1.on.aws/'
+const URL_SERVICE_ROUTE = process.env.URL_SERVICE_ROUTE
 
 const handlerGETRoute = async (_req: Request, res: Response) => {
     try {
+        if(!URL_SERVICE_ROUTE){
+            throw new Error('Url de servicio rutas no encontrada ')
+        }
         const response = await fetch(URL_SERVICE_ROUTE, {
             method: 'GET',
         })

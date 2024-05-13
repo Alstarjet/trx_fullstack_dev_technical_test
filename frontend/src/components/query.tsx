@@ -1,11 +1,12 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 import type { VehicleQueryParams } from '../interfaces/consut';
-
+import './query.css'
 interface Props {
-    queryParams: VehicleQueryParams
-    setQueryParams: React.Dispatch<React.SetStateAction<VehicleQueryParams>>}
+  queryParams: VehicleQueryParams
+  setQueryParams: React.Dispatch<React.SetStateAction<VehicleQueryParams>>
+}
 
-const VehicleQueryForm: React.FC<Props> = ({ queryParams,setQueryParams }) => {
+const VehicleQueryForm: React.FC<Props> = ({ queryParams, setQueryParams }) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -17,15 +18,24 @@ const VehicleQueryForm: React.FC<Props> = ({ queryParams,setQueryParams }) => {
 
 
   return (
-    <form >
+    <form className='queryForm'>
       <label>
-        Min Year:
+        Min Año-
         <input type="number" name="min_year" value={queryParams.min_year || ''} onChange={handleChange} />
       </label>
       <label>
-        Max Year:
         <input type="number" name="max_year" value={queryParams.max_year || ''} onChange={handleChange} />
+        -Max Año
       </label>
+      <label>
+        Min Asientos-
+        <input type="number" name="min_seats" value={queryParams.min_seats || ''} onChange={handleChange} />
+      </label>
+      <label>
+      <input type="number" name="max_seats" value={queryParams.max_seats || ''} onChange={handleChange} />
+        -Max Asientos
+      </label>
+      <div>
       <label>
         Color:
         <input type="text" name="color" value={queryParams.color} onChange={handleChange} />
@@ -34,14 +44,7 @@ const VehicleQueryForm: React.FC<Props> = ({ queryParams,setQueryParams }) => {
         Model:
         <input type="text" name="model" value={queryParams.model} onChange={handleChange} />
       </label>
-      <label>
-        Min Seats:
-        <input type="number" name="min_seats" value={queryParams.min_seats || ''} onChange={handleChange} />
-      </label>
-      <label>
-        Max Seats:
-        <input type="number" name="max_seats" value={queryParams.max_seats || ''} onChange={handleChange} />
-      </label>
+      </div>
     </form>
   );
 };
