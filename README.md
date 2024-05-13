@@ -1,38 +1,48 @@
 # Technical Test - Fullstack Developer
 
-Welcome to the technical test for the Fullstack Developer position at Traxi!
+# (MERN Frontend)
+This is a frontend application built with React and TypeScript for managing vehicles. It provides a list view of vehicles with a search feature, route, and vehicle location(fake) tracking on the route.
 
-In this test, you will have the opportunity to demonstrate your skills and knowledge in web application development. Please read the instructions and requirements carefully before you begin.
+## Features
+- List view of vehicles
+- Search functionality for vehicles
+- Vehicle location tracking on route
 
-Remember, this test is designed to evaluate your skills and experience. We recommend following development best practices and maintaining clean, well-structured code.
+## Technologies Used
+- React
+- TypeScript
+- Google Maps API
 
-Good luck! We look forward to seeing your talent in action!
+# (MERN Backend)
+This frontend interacts with a custom backend API for CRUD operations within the application.
 
-## Instructions
+## Features
+- CRUD Operations with vehicles
+- Search functionality for vehicles
+- Integration with route service for location information
 
-1. Fork this repository to your personal GitHub account.
-2. Clone the forked repository to your local machine.
-3. Create a new branch for this test.
-4. Follow the instructions provided in the [challenge](challenge.md) file to complete the test.
-5. Make frequent commits as you progress through the development.
-6. Once you are done, push your changes to your forked repository.
-7. Create a pull request in your own repository to merge the changes from your branch into the main branch of your forked repository.
-8. Share the link to your forked repository and the pull request with us.
+## Technologies Used
+- TypeScript
+- Express
+- MongoDB
 
-## Requirements
+## Setup
 
-- Proficiency in frontend web development using:
-    - JavaScript, preferably TypeScript.
-    - ReactJS and/or Next.js.
-- Experience in backend development using:
-    - Node.js
-    - Express
-    - Any database for data persistence and manipulation
-- Familiarity with version control tools such as Git.
+This project uses special settings called "environment variables" to set up certain things. Here's what you need to know:
 
-If you have any questions or need clarification, feel free to contact us - we're here to help!
+### For the Frontend
+- `VITE_KEY_API_MAPS`: It's like a secret code for Google Maps.
+- `VITE_URL_BACK`: The web address for the backend.
 
-Enjoy the technical test!
+### For the Backend
+- `DATA_BASE_APPLY_URI`: It's like the address of the database.
+- `DATA_BASE_MONGO`: Another address for the database.
+- `URL_SERVICE_ROUTE`: Where the route service lives.
+- `URL_FRONTEND`: The web address for the frontend.
 
-Best regards,
-The Traxi Tech Team ❤️
+Make sure to set up these settings before starting the project!
+
+## Getting Started
+1. Clone this repository.
+2. Install dependencies using `npm install`.
+3. Start the development server using `npm run dev`.

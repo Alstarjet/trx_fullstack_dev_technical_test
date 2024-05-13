@@ -1,0 +1,26 @@
+.mapsButtons{
+    width: 50%;
+    max-width: 490px;
+    display:  grid;
+    grid-template-columns: 50% 50%;
+    position: absolute;
+    bottom: 0;
+    right: 50%;
+    transform: translate(50%, 0%);
+
+    z-index: 100;
+}
+.mapsButtons button:first-child{
+    grid-column: span 2;
+}
+.mapsButtons button{
+    margin: 0.5rem;
+}
+
+@media screen and (max-width: 991px) {
+
+    .mapsButtons button{
+        margin: 0.1rem;
+        padding: 5px 8px;
+    }
+  }

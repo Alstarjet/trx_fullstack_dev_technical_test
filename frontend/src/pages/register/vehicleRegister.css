@@ -1,0 +1,16 @@
+.BasicForm{
+    display: flex;
+    flex-direction: column;
+}
+.full{
+    width: 100%;
+    height: 100%;
+}
+.titlex svg{
+    color: red;
+    font-size: 30px;
+  }
+  .titlex{
+    display: flex;
+    justify-content: space-between;
+  }

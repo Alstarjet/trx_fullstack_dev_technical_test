@@ -1,0 +1,7 @@
+.GridVehicleIteam{
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
+}
