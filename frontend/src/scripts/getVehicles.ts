@@ -45,14 +45,5 @@ function buildQuery(params: VehicleQueryParams): string {
     return queryParams
 }
 
-const queryParams: VehicleQueryParams = {
-    min_year: 2000,
-    max_year: 2022,
-    color: 'red',
-    model: 'Sedan',
-    min_seats: 4,
-    max_seats: 7,
-    page: 1
-}
 
 export default getListVehicles

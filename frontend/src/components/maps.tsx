@@ -6,7 +6,6 @@ import car from '../assets/car.png'
 import consultGeoJson from '../scripts/consultGeoJson'
 import './maps.css'
 interface Maps {
-    geoJson: FeatureCollection
     getLtLng: (lat: number, lng: number) => void
     marker: markeVehicle
 }
@@ -17,7 +16,7 @@ interface FarthestPair {
     Secondlng: number
 }
 
-function Maps({ geoJson, getLtLng, marker }: Maps) {
+function Maps({ getLtLng, marker }: Maps) {
     let map: google.maps.Map
     useEffect(() => {
         const loader = new Loader({
